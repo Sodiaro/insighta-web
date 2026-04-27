@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { NavBar } from '../components/NavBar';
-import api from '../api';
+import api, { API_BASE } from '../api';
 
 interface Profile {
   id: string;
@@ -32,7 +32,7 @@ export function ProfilesPage() {
   }, [page]);
 
   function handleExport() {
-    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/profiles/export?format=csv`;
+    const url = `${API_BASE}/api/profiles/export?format=csv`;
     window.open(url, '_blank');
   }
 
