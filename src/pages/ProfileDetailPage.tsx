@@ -6,12 +6,14 @@ import api from '../api';
 
 interface Profile {
   id: string;
-  full_name: string;
-  job_title: string;
+  name: string;
+  gender: string;
+  gender_probability: number;
+  age: number;
+  age_group: string;
+  country_id: string;
   country_name: string;
-  years_of_experience: number;
-  skills: string[];
-  bio?: string;
+  country_probability: number;
   created_at: string;
 }
 
@@ -52,13 +54,14 @@ export function ProfileDetailPage() {
       <main className="container">
         <button onClick={() => navigate(-1)} className="btn-ghost back-btn">← Back</button>
         <div className="profile-card">
-          <h2>{profile.full_name}</h2>
-          <p className="job-title">{profile.job_title}</p>
+          <h2>{profile.name}</h2>
+          <p className="job-title">{profile.gender} · {profile.age_group}</p>
           <dl className="detail-list">
-            <dt>Country</dt><dd>{profile.country_name}</dd>
-            <dt>Experience</dt><dd>{profile.years_of_experience} years</dd>
-            <dt>Skills</dt><dd>{profile.skills?.join(', ') || '—'}</dd>
-            {profile.bio && <><dt>Bio</dt><dd>{profile.bio}</dd></>}
+            <dt>Gender</dt><dd>{profile.gender} ({(profile.gender_probability * 100).toFixed(1)}%)</dd>
+            <dt>Age</dt><dd>{profile.age}</dd>
+            <dt>Age Group</dt><dd>{profile.age_group}</dd>
+            <dt>Country</dt><dd>{profile.country_name} ({profile.country_id})</dd>
+            <dt>Country Probability</dt><dd>{(profile.country_probability * 100).toFixed(1)}%</dd>
             <dt>Created</dt><dd>{new Date(profile.created_at).toLocaleDateString()}</dd>
           </dl>
           {user?.role === 'admin' && (

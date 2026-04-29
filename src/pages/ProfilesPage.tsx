@@ -5,10 +5,11 @@ import api from '../api';
 
 interface Profile {
   id: string;
-  full_name: string;
-  job_title: string;
+  name: string;
+  gender: string;
+  age: number;
+  age_group: string;
   country_name: string;
-  years_of_experience: number;
 }
 
 export function ProfilesPage() {
@@ -56,15 +57,16 @@ export function ProfilesPage() {
         {loading ? <p>Loading…</p> : (
           <table className="data-table">
             <thead>
-              <tr><th>Name</th><th>Job Title</th><th>Country</th><th>Exp</th><th></th></tr>
+              <tr><th>Name</th><th>Gender</th><th>Age</th><th>Age Group</th><th>Country</th><th></th></tr>
             </thead>
             <tbody>
               {profiles.map((p) => (
                 <tr key={p.id}>
-                  <td>{p.full_name}</td>
-                  <td>{p.job_title}</td>
+                  <td>{p.name}</td>
+                  <td>{p.gender}</td>
+                  <td>{p.age}</td>
+                  <td>{p.age_group}</td>
                   <td>{p.country_name}</td>
-                  <td>{p.years_of_experience}y</td>
                   <td><Link to={`/profiles/${p.id}`}>View</Link></td>
                 </tr>
               ))}
