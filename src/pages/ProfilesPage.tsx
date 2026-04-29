@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { NavBar } from '../components/NavBar';
-import api, { API_BASE } from '../api';
+import api from '../api';
 
 interface Profile {
   id: string;
@@ -31,9 +31,18 @@ export function ProfilesPage() {
       .finally(() => setLoading(false));
   }, [page]);
 
-  function handleExport() {
-    const url = `${API_BASE}/api/profiles/export?format=csv`;
-    window.open(url, '_blank');
+  async function handleExport() {
+    try {
+      const res = await api.get('/api/profiles/export?format=csv', { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'text/csv' }));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'profiles.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      alert('Export failed. Please try again.');
+    }
   }
 
   return (
